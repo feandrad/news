@@ -31,12 +31,12 @@ fun DetailsScreen(
     title: String,
     imageUrl: String,
     description: String,
-    newsProvider: String? = null
+    newsProvider: String
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(newsProvider ?: stringResource(R.string.all_sources)) },
+                title = { Text(newsProvider) },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(

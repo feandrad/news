@@ -14,7 +14,7 @@ sealed class Routes(
         const val DESCRIPTION_ARG = "description"
         const val SOURCES_ARG = "sources"
 
-        fun createRoute(title: String, imageUrl: String, description: String, sources: String?): String =
+        fun createRoute(title: String, imageUrl: String, description: String, sources: String): String =
             "details/${title.encode()}/${description.encode()}/${imageUrl.encode()}/${sources.encode()}"
     }
 }
