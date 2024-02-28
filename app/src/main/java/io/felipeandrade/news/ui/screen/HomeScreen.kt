@@ -35,9 +35,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import io.felipeandrade.news.BuildConfig
 import io.felipeandrade.news.R
+import io.felipeandrade.news.domain.model.EUNewsSources
 import io.felipeandrade.news.domain.model.NewsArticle
-import io.felipeandrade.news.domain.model.NewsSources
+import io.felipeandrade.news.domain.model.NewsSource
+import io.felipeandrade.news.domain.model.USNewsSources
 import io.felipeandrade.news.ui.NewsViewModel
 import io.felipeandrade.news.ui.navigation.Routes
 import io.felipeandrade.news.ui.widget.GlideImage
@@ -64,7 +67,11 @@ fun HomeScreen(navController: NavHostController) {
                             expanded = expanded.value,
                             onDismissRequest = { expanded.value = false }
                         ) {
-                            NewsSources.entries.forEach {
+                            val entries: List<NewsSource> = when (BuildConfig.NEWS_SOURCE) {
+                                "EU" -> EUNewsSources.entries
+                                else -> USNewsSources.entries
+                            }
+                            entries.forEach {
                                 DropdownMenuItem(
                                     text = { Text(stringResource(it.displayName)) },
                                     onClick = {

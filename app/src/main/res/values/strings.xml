@@ -9,4 +9,7 @@
     <string name="source_al_jazeera">Al Jazeera</string>
     <string name="source_abc_news">ABC News</string>
     <string name="source_bbc_news">BBC News</string>
+    <string name="source_cnn_news">CNN News</string>
+    <string name="source_fox_news">Fox News</string>
+    <string name="source_nbc_news">NBC News</string>
 </resources>

@@ -5,8 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.felipeandrade.news.BuildConfig
+import io.felipeandrade.news.domain.model.EUNewsSources
 import io.felipeandrade.news.domain.model.NewsArticle
-import io.felipeandrade.news.domain.model.NewsSources
+import io.felipeandrade.news.domain.model.NewsSource
+import io.felipeandrade.news.domain.model.USNewsSources
 import io.felipeandrade.news.domain.usecase.GetTopHeadlinesUseCase
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,8 +22,8 @@ class NewsViewModel @Inject constructor (
     private val _newsArticles = MutableLiveData<List<NewsArticle>>()
     val newsArticles: LiveData<List<NewsArticle>> = _newsArticles
 
-    private val _newsProvider = MutableLiveData<NewsSources>()
-    val newsProvider: LiveData<NewsSources> = _newsProvider
+    private val _newsProvider = MutableLiveData<NewsSource>()
+    val newsProvider: LiveData<NewsSource> = _newsProvider
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -29,7 +32,11 @@ class NewsViewModel @Inject constructor (
     val error: LiveData<String?> = _error
 
     init {
-        changeNewsSource(NewsSources.BBC_NEWS)
+        val initial = when (BuildConfig.NEWS_SOURCE) {
+            "EU" -> EUNewsSources.BBC_NEWS
+            else -> USNewsSources.CNN
+        }
+        changeNewsSource(initial)
     }
 
     fun loadNews(sources: String) {
@@ -49,7 +56,7 @@ class NewsViewModel @Inject constructor (
         }
     }
 
-    fun changeNewsSource(source: NewsSources) {
+    fun changeNewsSource(source: NewsSource) {
         _newsProvider.value = source
         loadNews(source.id)
     }

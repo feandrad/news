@@ -21,9 +21,22 @@ android {
 
     buildFeatures {
         compose true
+        android.buildFeatures.buildConfig true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.9"
+    }
+
+    flavorDimensions "region"
+    productFlavors {
+        EU {
+            dimension "region"
+            buildConfigField "String", "NEWS_SOURCE", "\"EU\""
+        }
+        US {
+            dimension "region"
+            buildConfigField "String", "NEWS_SOURCE", "\"US\""
+        }
     }
 
     buildTypes {
