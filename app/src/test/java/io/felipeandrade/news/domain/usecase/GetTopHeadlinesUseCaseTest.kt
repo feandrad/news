@@ -55,11 +55,13 @@ class GetTopHeadlinesUseCaseTest {
             NewsArticle(
                 title = "Title 1",
                 imageUrl = "ImageUrl 1",
+                description = "Description 1",
                 publishedAt = "PublishedAt 1"
             ),
             NewsArticle(
                 title = "Title 2",
                 imageUrl = "ImageUrl 2",
+                description = "Description 2",
                 publishedAt = "PublishedAt 2"
             )
         )

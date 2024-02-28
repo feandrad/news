@@ -28,6 +28,7 @@ class NewsViewModel @Inject constructor (
     val error: LiveData<String?> = _error
 
     init {
+        _newsProvider.value = "BBC News"
         loadNews("bbc-news")
     }
 

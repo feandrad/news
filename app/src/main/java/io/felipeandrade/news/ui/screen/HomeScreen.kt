@@ -1,5 +1,6 @@
 package io.felipeandrade.news.ui.screen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,14 +26,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import io.felipeandrade.news.R
 import io.felipeandrade.news.domain.model.NewsArticle
 import io.felipeandrade.news.ui.NewsViewModel
+import io.felipeandrade.news.ui.navigation.Routes
 import io.felipeandrade.news.ui.widget.GlideImage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavHostController) {
     val viewModel: NewsViewModel = hiltViewModel()
     val newsArticles by viewModel.newsArticles.observeAsState()
     val newsProvider by viewModel.newsProvider.observeAsState()
@@ -63,6 +66,9 @@ fun HomeScreen() {
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(padding),
+                        onClick = { article ->
+                            navController.navigateToDetails(article, newsProvider)
+                        }
                     )
                 } ?: Text(stringResource(R.string.no_news_available))
             }
@@ -70,24 +76,31 @@ fun HomeScreen() {
     }
 }
 
+private fun NavHostController.navigateToDetails(article: NewsArticle, sources: String?) {
+    navigate(Routes.Details.createRoute(article.title, article.imageUrl?: "", article.description, sources))
+}
+
 @Composable
-fun NewsList(newsList: List<NewsArticle>, modifier: Modifier) {
+fun NewsList(newsList: List<NewsArticle>, onClick: (NewsArticle) -> Unit, modifier: Modifier) {
     LazyColumn(modifier = modifier) {
         items(newsList.sortedByDescending { it.publishedAt }) { news ->
-            NewsItem(news = news)
+            NewsItem(news, onClick)
         }
     }
 }
 
 @Composable
-fun NewsItem(news: NewsArticle) {
-    Card(modifier = Modifier.padding(8.dp).fillMaxWidth()) {
+fun NewsItem(news: NewsArticle, onClick: (NewsArticle) -> Unit) {
+    Card(modifier = Modifier
+        .padding(8.dp)
+        .fillMaxWidth()
+        .clickable { onClick(news) }) {
         Row(modifier = Modifier.padding(8.dp)) {
             news.imageUrl?.let { url ->
                 GlideImage(
                     imageUrl = url,
                     contentDescription = stringResource(R.string.news_image),
-                    modifier = Modifier.size(100.dp) // Set the size as needed
+                    modifier = Modifier.size(100.dp)
                 )
             }
             Spacer(modifier = Modifier.width(8.dp))

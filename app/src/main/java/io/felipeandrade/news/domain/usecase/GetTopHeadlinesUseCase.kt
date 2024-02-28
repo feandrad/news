@@ -9,7 +9,8 @@ class GetTopHeadlinesUseCase(private val newsRepository: NewsRepository) {
             resp.articles.map {
                 NewsArticle(
                     title = it.title ?: "",
-                    imageUrl = it.urlToImage ?: "",
+                    imageUrl = it.urlToImage,
+                    description = it.description ?: "",
                     publishedAt = it.publishedAt ?: "",
                 )
             }
