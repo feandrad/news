@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">News</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="no_news_available">No news available</string>
+    <string name="all_sources">All sources</string>
+    <string name="news_image">News image</string>
 </resources>
